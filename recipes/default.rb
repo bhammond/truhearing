@@ -72,3 +72,38 @@ web_app "t3" do
     docroot "/var/www/t3/src/t3/"
 end
 
+bash "add_custom_aliases" do
+    user "root"
+    cwd "/tmp"
+    code <<-EOT
+    echo "
+        alias t3='cd /var/www/t3/src/t3'
+        alias db='cd /var/www/t3/databaseScripts'
+        alias migrate='/var/www/t3/src/cake/console/cake migration'
+        alias migrate_up='/var/www/t3/src/cake/console/cake migration up'
+        alias migrate_down='/var/www/t3/src/cake/console/cake migration down'
+        alias migrate_add='/var/www/t3/src/cake/console/cake migration add'
+
+        alias ..='cd ..'
+        alias ...='cd ../..'
+
+        alias ls='ls -alF'
+        alias lsa='ls -lah'
+        alias l='ls -la'
+        alias ll='ls -l'
+        alias la='ls -lA'
+        alias sl=ls
+    " >> $HOME/.bashrc
+    EOT
+end
+
+file "/home/vagrant/.vimrc" do
+  owner "vagrant"
+  group "vagrant"
+  mode "0777"
+  action :create_if_missing
+  content <<-EOT
+set backspace=indent,eol,start
+set nocompatible
+EOT
+end
