@@ -1,25 +1,3 @@
-pg_user "securetruhearing" do
-    privileges :superuser => true, :createdb => true, :login => true
-    password "tXTV2aYqmdc7"
-end
-
-pg_database "securetruhearing_sprint5" do
-    owner "securetruhearing"
-    encoding "utf8"
-    template "template0"
-    locale "en_US.UTF8"
-end
-
-pg_database_extensions "securetruhearing_sprint5" do
-    languages ["plpgsql", "plpythonu"]
-    extensions ["hstore"]
-end
-
-pg_database_extensions "postgres" do
-    languages ["plpythonu"]
-    extensions ["hstore"]
-end
-
 package "php5-pgsql" do
     action :install
 end
@@ -58,6 +36,28 @@ end
 
 package "python-cjson" do
     action :install
+end
+
+pg_user "securetruhearing" do
+    privileges :superuser => true, :createdb => true, :login => true
+    password "tXTV2aYqmdc7"
+end
+
+pg_database "securetruhearing_sprint5" do
+    owner "securetruhearing"
+    encoding "utf8"
+    template "template0"
+    locale "en_US.UTF8"
+end
+
+pg_database_extensions "securetruhearing_sprint5" do
+    languages ["plpgsql", "plpythonu"]
+    extensions ["hstore"]
+end
+
+pg_database_extensions "postgres" do
+    languages ["plpythonu"]
+    extensions ["hstore"]
 end
 
 include_recipe "apache2"
