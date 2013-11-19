@@ -38,6 +38,10 @@ package "python-cjson" do
     action :install
 end
 
+package "cakephp-scripts" do
+    action :install
+end
+
 pg_user "securetruhearing" do
     privileges :superuser => true, :createdb => true, :login => true
     password "tXTV2aYqmdc7"
