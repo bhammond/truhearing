@@ -43,20 +43,20 @@ package "cakephp-scripts" do
 end
 
 execute "update-tzdata" do
-  command "dpkg-reconfigure -f noninteractive tzdata"
-  action :nothing
+    command "dpkg-reconfigure -f noninteractive tzdata"
+    action :nothing
 end
 
 file "/etc/timezone" do
-  owner "root"
-  group "root"
-  mode "00644"
-  content "US/Mountain"
-  notifies :run, "execute[update-tzdata]"
+    owner "root"
+    group "root"
+    mode "00644"
+    content "US/Mountain"
+    notifies :run, "execute[update-tzdata]"
 end
 
 package "tzdata" do
-  action :install
+    action :install
 end
 
 pg_user "securetruhearing" do
@@ -95,43 +95,43 @@ bash "add_custom_aliases" do
     cwd "/tmp"
     code <<-EOT
     echo "
-alias t3='cd /var/www/t3/src/t3'
-alias db='cd /var/www/t3/databaseScripts'
-alias migrate='/var/www/t3/src/cake/console/cake migration'
-alias migrate_up='/var/www/t3/src/cake/console/cake migration up'
-alias migrate_down='/var/www/t3/src/cake/console/cake migration down'
-alias migrate_add='/var/www/t3/src/cake/console/cake migration add'
+        alias t3='cd /var/www/t3/src/t3'
+        alias db='cd /var/www/t3/databaseScripts'
+        alias migrate='/var/www/t3/src/cake/console/cake migration'
+        alias migrate_up='/var/www/t3/src/cake/console/cake migration up'
+        alias migrate_down='/var/www/t3/src/cake/console/cake migration down'
+        alias migrate_add='/var/www/t3/src/cake/console/cake migration add'
 
-alias ..='cd ..'
-alias ...='cd ../..'
+        alias ..='cd ..'
+        alias ...='cd ../..'
 
-alias ls='ls -alF'
-alias lsa='ls -lah'
-alias l='ls -la'
-alias ll='ls -l'
-alias la='ls -lA'
-alias sl=ls
+        alias ls='ls -alF'
+        alias lsa='ls -lah'
+        alias l='ls -la'
+        alias ll='ls -l'
+        alias la='ls -lA'
+        alias sl=ls
     " >> $HOME/.bashrc
     EOT
 end
 
 file "/home/vagrant/.vimrc" do
-  owner "vagrant"
-  group "vagrant"
-  mode "0777"
-  action :create_if_missing
-  content <<-EOT
-set backspace=indent,eol,start
-set nocompatible
-EOT
+    owner "vagrant"
+    group "vagrant"
+    mode "0777"
+    action :create_if_missing
+    content <<-EOT
+        set backspace=indent,eol,start
+        set nocompatible
+    EOT
 end
 
 bash "run database" do
     user "root"
     cwd "/var/www/t3/databaseScripts"
     code <<-EOT
-        ./refreshdatabase.sh
-        echo "Database has been refreshed."
+            ./refreshdatabase.sh
+            echo "Database has been refreshed."
     EOT
 end
 
@@ -139,8 +139,8 @@ bash "copy Lanes database scripts to tmp dir" do
     user "root"
     cwd "/var/www/t3_db"
     code <<-EOT
-        cp /var/www/t3_db/install_db_scripts.bash /tmp
-        chmod 777 /tmp/install_db_scripts.bash
+            cp /var/www/t3_db/install_db_scripts.bash /tmp
+            chmod 777 /tmp/install_db_scripts.bash
     EOT
 end
 
@@ -148,8 +148,8 @@ bash "install lanes scripts" do
     user "postgres"
     cwd "/tmp"
     code <<-EOT
-        ./install_db_scripts.bash securetruhearing_sprint5
-        echo "Installed Lanes Database scripts"
+            ./install_db_scripts.bash securetruhearing_sprint5
+            echo "Installed Lanes Database scripts"
     EOT
 end
 
