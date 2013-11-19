@@ -66,6 +66,7 @@ end
 
 include_recipe "apache2"
 
+
 web_app "t3" do
     server_name "t3.dev"
     server_aliases ["www.t3.dev"]
