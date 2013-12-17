@@ -1,53 +1,24 @@
-package "php5-pgsql" do
-    action :install
-end
 
-package "postgresql-contrib" do
-    action :install
-end
+apt_packages = [
+    'php5-pgsql',
+    'postgresql-contrib',
+    'postgresql-client-common',
+    'postgresql-plpython-9.3',
+    'smbfs',
+    'php5-cli',
+    'php5-curl',
+    'php5-intl',
+    'php5-mcrypt',
+    'php5-gd',
+    'python-cjson"',
+    'cakephp-scripts',
+    'tzdata',
+]
 
-package "postgresql-client-common" do
+apt_packages.each do |pkg|
+  package pkg do
     action :install
-end
-
-package "postgresql-plpython-9.3" do
-    action :install
-end
-
-package "libpq-dev" do
-    action :install
-end
-
-package "smbfs" do
-    action :install
-end
-
-package "php5-cli" do
-    action :install
-end
-
-package "php5-curl" do
-    action :install
-end
-
-package "php5-intl" do
-    action :install
-end
-
-package "php5-mcrypt" do
-    action :install
-end
-
-package "php5-gd" do
-    action :install
-end
-
-package "python-cjson" do
-    action :install
-end
-
-package "cakephp-scripts" do
-    action :install
+  end
 end
 
 execute "update-tzdata" do
@@ -63,8 +34,10 @@ file "/etc/timezone" do
     notifies :run, "execute[update-tzdata]"
 end
 
-package "tzdata" do
-    action :install
+gem_package "pg" do
+  action :install
+  version '0.17.0'
+  ignore_failure true
 end
 
 pg_user "securetruhearing" do
@@ -91,19 +64,10 @@ end
 
 include_recipe "apache2"
 
-
 web_app "t3" do
     server_name "t3.dev"
     server_aliases ["www.t3.dev"]
     docroot "/var/www/t3/src/t3/"
-end
-
-
-bash "add_pg_gem" do
-    user "root"
-    code <<-EOT
-    gem install pg
-    EOT
 end
 
 file "/home/vagrant/.bash_aliases" do
@@ -125,8 +89,8 @@ alias ...='cd ../..'
 alias ls='ls -alF'
 alias lsa='ls -lah'
 alias l='ls -la'
-alias ll='ls -l'
 alias la='ls -lA'
+alias ll=ls
 alias sl=ls
     EOT
 end

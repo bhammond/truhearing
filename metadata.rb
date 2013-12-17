@@ -1,2 +1,6 @@
-name "t3"
-description "Adds Apache domain configuration for my site"
+name              "t3"
+maintainer        "TruHearing - Brett Hammond"
+maintainer_email  "brett.h@truhearing.com"
+license           "Apache 2.0"
+description       "Configures T3 preferences"
+version           "0.0.1"
