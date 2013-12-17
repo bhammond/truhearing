@@ -10,7 +10,7 @@ apt_packages = [
     'php5-intl',
     'php5-mcrypt',
     'php5-gd',
-    'python-cjson"',
+    'python-cjson',
     'cakephp-scripts',
     'tzdata',
 ]
