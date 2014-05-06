@@ -54,12 +54,14 @@ end
 
 pg_database_extensions "securetruhearing_sprint5" do
     languages ["plpgsql", "plpythonu"]
-    extensions ["hstore"]
+    extensions ["hstore", "postgis", "postgis_topology"]
+    postgis true
 end
 
 pg_database_extensions "postgres" do
     languages ["plpythonu"]
-    extensions ["hstore"]
+    extensions ["hstore", "postgis", "postgis_topology"]
+    postgis true
 end
 
 include_recipe "apache2"
