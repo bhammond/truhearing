@@ -1,10 +1,27 @@
+unless  ENV["LANGUAGE"] == "en_US.UTF-8" &&
+        ENV["LANG"] == "en_US.UTF-8" &&
+        ENV["LC_ALL"] == "en_US.UTF-8"
+
+  template "/etc/profile.d/lang.sh" do
+    source  "lang.sh.erb"
+    mode "0644"
+  end
+
+  execute "locale-gen" do
+    command "locale-gen en_US.UTF-8"
+  end
+
+  execute "dpkg-reconfigure-locales" do
+    command "dpkg-reconfigure locales"
+  end
+end
 
 apt_packages = [
     'php5-pgsql',
+    'postgresql-server-dev-9.3',
     'postgresql-contrib',
     'postgresql-client-common',
     'postgresql-plpython-9.3',
-    'smbfs',
     'php5-cli',
     'php5-curl',
     'php5-intl',
@@ -37,11 +54,6 @@ end
 gem_package "pg" do
   action :install
   version '0.17.0'
-  ignore_failure true
-end
-
-gem_package "soulmate" do
-  action :install
   ignore_failure true
 end
 
@@ -111,30 +123,40 @@ set nocompatible
     EOT
 end
 
-bash "run database" do
-    user "root"
-    cwd "/var/www/t3/databaseScripts"
-    code <<-EOT
-            ./refreshdatabase.sh
-            echo "Database has been refreshed."
-    EOT
-end
+# bash "run database" do
+#     user "root"
+#     cwd "/var/www/t3/databaseScripts"
+#     code <<-EOT
+#             ./refreshdatabase.sh
+#             echo "Database has been refreshed."
+#     EOT
+# end
 
-bash "copy Lanes database scripts to tmp dir" do
-    user "root"
-    cwd "/var/www/t3_db"
-    code <<-EOT
-            cp /var/www/t3_db/install_db_scripts.bash /tmp
-            chmod 777 /tmp/install_db_scripts.bash
-    EOT
-end
+# bash "copy Lanes database scripts to tmp dir" do
+#     user "root"
+#     cwd "/var/www/t3_db"
+#     code <<-EOT
+#             cp /var/www/t3_db/install_db_scripts.bash /tmp
+#             chmod 777 /tmp/install_db_scripts.bash
+#     EOT
+# end
 
-bash "install lanes scripts" do
-    user "postgres"
-    cwd "/tmp"
-    code <<-EOT
-            ./install_db_scripts.bash securetruhearing_sprint5
-            echo "Installed Lanes Database scripts"
-    EOT
-end
+# bash "install lanes scripts" do
+#     user "postgres"
+#     cwd "/tmp"
+#     code <<-EOT
+#             ./install_db_scripts.bash securetruhearing_sprint5
+#             echo "Installed Lanes Database scripts"
+#     EOT
+# end
 
+
+# execute "set rvm default" do
+#   command "rvm --default use ruby-2.0.0-p0"
+# end
+
+# execute "run_soulmate" do
+#   command "soulmate-web --no-launch --server thin --redis=redis://0:mxv2eckoZbtFDTwjigf2nqAbtmMTMg@localhost:6379"
+#   user "vagrant"
+#   returns 1
+# end
