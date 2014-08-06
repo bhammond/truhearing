@@ -40,6 +40,11 @@ gem_package "pg" do
   ignore_failure true
 end
 
+gem_package "soulmate" do
+  action :install
+  ignore_failure true
+end
+
 pg_user "securetruhearing" do
     privileges :superuser => true, :createdb => true, :login => true
     password "tXTV2aYqmdc7"
@@ -54,14 +59,12 @@ end
 
 pg_database_extensions "securetruhearing_sprint5" do
     languages ["plpgsql", "plpythonu"]
-    extensions ["hstore", "postgis", "postgis_topology"]
-    postgis true
+    extensions ["hstore"]
 end
 
 pg_database_extensions "postgres" do
     languages ["plpythonu"]
-    extensions ["hstore", "postgis", "postgis_topology"]
-    postgis true
+    extensions ["hstore"]
 end
 
 include_recipe "apache2"
